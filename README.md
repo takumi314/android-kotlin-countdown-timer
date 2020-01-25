@@ -10,6 +10,32 @@
 - SoundPool
 - 非推奨API処理
 
+## CountDownTimerクラス
+- [CountDownTimer - android developers](https://developer.android.com/reference/android/os/CountDownTimer)
+
+### Summary
+
+**Constructor**
+
+```
+public CountDownTimer (long millisInFuture, long countDownInterval)
+```
+- `millisInFuture`  long型:  `start()`がコールされてからカウントダウン終了で`onFinished()` が呼び出されるまでの時間をミリ秒で指定する。
+- `countDownInterval`  long型:  `onTick(long)` でコールバックを受け取る時間間隔をt指定する。
+
+
+**Methods**
+ 返り値 | メソッド | 説明
+:---- | :---- | :----:
+final void | `cancel()` | カウントダウンをかキャンセルする。
+abstract void | `onFinish()` | カウントダウンが終了したらコールされる。
+abstract void | `onTick(millisUntilFinished: Long)` | 一定時間が経過するとコールされる。
+final CountDownTimer | `onStart()` | カウントダウンを開始する。
+
+### 注意点
+
+
+
 ## 非推奨APIを処理する
 - 実行中のOSバージョン番号は `Build.VERSION.SDK_INT` で取得できる。
 - 今までリリースされたすべてのAndroid OSのバージョン番号は `Build.VERSION_CODES` で定義されている。
