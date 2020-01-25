@@ -1,7 +1,9 @@
 package com.example.countdowntimer
 
+import android.media.AudioAttributes
 import android.media.AudioManager
 import android.media.SoundPool
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.CountDownTimer
@@ -64,11 +66,24 @@ class MainActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        // SoundPoolクラスのインスタンスを作成する
-        // - mexStream: 同時に再生することができる音源数
-        // - streamType: アラーム音のためのストリーム
-        // - srcQuality: 品質を指定する
-        soundPool = SoundPool(2, AudioManager.STREAM_ALARM, 0)
+
+        // 注) SoundPoolのコンストラクタは API21(LOLLIPOP)以降で非推奨となる
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+            // SoundPoolクラスのインスタンスを作成する
+            // - mexStream: 同時に再生することができる音源数
+            // - streamType: アラーム音のためのストリーム
+            // - srcQuality: 品質を指定する
+            @Suppress("DEPRECATION")
+            soundPool = SoundPool(2, AudioManager.STREAM_ALARM, 0)
+        } else {
+            val audioAttributes
+                    = AudioAttributes.Builder()
+                .setUsage(AudioAttributes.USAGE_ALARM)
+                .build()
+            soundPool = SoundPool.Builder()
+                .setAudioAttributes(audioAttributes)
+                .build()
+        }
         // リソースからサウンドファイルを読み込む
         // - context: アクティビティを指定する
         // - redId: サウンドファイルのリソースID
